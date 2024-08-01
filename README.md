@@ -15,16 +15,13 @@ First we'll want to generate an SSH key (if you don't already have one)
 ssh-keygen -t ed25519 -C "your_email@example.com"
 ```
 
-You can choose to name the key something specific, but the default should work
-well. Then, when prompted, put in a passphrase for this key. Then we want to
+Then, when prompted, put in a passphrase for this key. Then we want to
 add the key to our agent
 
 ```sh
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 ```
-
-If you gave your key a different name, replace `id_ed25519` with that name.
 
 #### Logging in to Oscar
 
