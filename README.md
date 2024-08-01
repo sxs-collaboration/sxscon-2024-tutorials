@@ -112,6 +112,6 @@ wipe the build directory and recompile:
     rm -rf $SPECTRE_BUILD
     ```
 
-2.  Go to step 5. above to reconfigure the build directory.
+2.  Go to step 4. above to reconfigure the build directory.
 
 ### Connecting Jupyter notebooks to Oscar
