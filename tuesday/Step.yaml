@@ -1,0 +1,120 @@
+# Distributed under the MIT License.
+# See LICENSE.txt for details.
+
+Executable: EvolveBurgers
+Testing:
+  CommandLineArgs: +balancer RandCentLB +p2
+  Timeout: 5
+  Check: parse;execute
+  Priority: High
+
+---
+
+Parallelization:
+  ElementDistribution: NumGridPoints
+
+ResourceInfo:
+  AvoidGlobalProc0: false
+
+InitialData: &InitialData
+  Step:
+    LeftValue: 2.
+    RightValue: 1.
+    InitialPosition: -0.5
+
+Evolution:
+  InitialTime: 0.0
+  InitialTimeStep: 0.001
+  TimeStepper:
+    AdamsBashforth:
+      Order: 3
+
+PhaseChangeAndTriggers:
+
+DomainCreator:
+  Interval:
+    LowerBound: [-1.0]
+    UpperBound: [1.0]
+    Distribution: Linear
+    Singularity: None
+    InitialRefinement: [3]
+    InitialGridPoints: [6]
+    TimeDependence: None
+    BoundaryConditions:
+      LowerBoundary:
+        DirichletAnalytic:
+          AnalyticPrescription: *InitialData
+      UpperBoundary:
+        DirichletAnalytic:
+          AnalyticPrescription: *InitialData
+
+SpatialDiscretization:
+  BoundaryCorrection:
+    Hll:
+  DiscontinuousGalerkin:
+    Formulation: StrongInertial
+    Quadrature: GaussLobatto
+    Subcell:
+      TroubledCellIndicator:
+        PerssonTci:
+          Exponent: 4.0
+          NumHighestModes: 1
+        RdmpTci:
+          Delta0: 1.0e-7
+          Epsilon: 1.0e-3
+        FdToDgTci:
+          NumberOfStepsBetweenTciCalls: 1
+          MinTciCallsAfterRollback: 3
+          MinimumClearTcis: 1
+        AlwaysUseSubcells: false
+        UseHalo: false
+        OnlyDgBlocksAndGroups: None
+      SubcellToDgReconstructionMethod: DimByDim
+      FiniteDifferenceDerivativeOrder: 2
+  SubcellSolver:
+    Reconstructor: MonotonisedCentral
+
+EventsAndTriggers:
+  - Trigger:
+      Slabs:
+        EvenlySpaced:
+          Interval: 1000
+          Offset: 0
+    Events:
+      - ChangeSlabSize:
+          DelayChange: 0
+          StepChoosers:
+            - Cfl:
+                SafetyFactor: 0.5
+            - LimitIncrease:
+                Factor: 2.0
+  - Trigger:
+      TimeCompares:
+        Comparison: GreaterThanOrEqualTo
+        Value: 1.0
+    Events:
+      - Completion
+  - Trigger:
+      Slabs:
+        EvenlySpaced:
+          Interval: 10
+          Offset: 0
+    Events:
+      - ObserveFields:
+          SubfileName: VolumeData
+          VariablesToObserve: ["U"]
+          InterpolateToMesh: None
+          CoordinatesFloatingPointType: Double
+          FloatingPointTypes: [Float]
+
+EventsAndDenseTriggers:
+  # - Trigger:
+  #     Times:
+  #       Specified:
+  #         Values: [0.123456]
+  #   Events:
+  #     - Completion
+
+Observers:
+  VolumeFileName: "BurgersStepVolume"
+  ReductionFileName: "BurgersStepReductions"

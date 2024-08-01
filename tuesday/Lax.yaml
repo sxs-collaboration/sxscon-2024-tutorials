@@ -1,0 +1,118 @@
+# Distributed under the MIT License.
+# See LICENSE.txt for details.
+
+Executable: EvolveNewtonianEuler1D
+Testing:
+  Check: parse;execute
+
+---
+
+Parallelization:
+  ElementDistribution: NumGridPoints
+
+ResourceInfo:
+  AvoidGlobalProc0: false
+
+Evolution:
+  InitialTime: 0.0
+  InitialTimeStep: 0.0001
+  TimeStepper:
+    Rk3HesthavenSsp
+
+PhaseChangeAndTriggers:
+
+EquationOfState:
+  IdealFluid:
+    AdiabaticIndex: 1.4
+
+InitialData: &InitialData
+  RiemannProblem:
+    AdiabaticIndex: 1.4
+    InitialPosition: 0.25
+    LeftMassDensity: 0.445
+    LeftVelocity: [0.698]
+    LeftPressure: 3.528
+    RightMassDensity: 0.5
+    RightVelocity: [0.0]
+    RightPressure: 0.571
+    PressureStarTol: 1e-9
+
+DomainCreator:
+  Interval:
+    LowerBound: [-0.25]
+    UpperBound: [0.75]
+    Distribution: Linear
+    Singularity: None
+    InitialRefinement: [4]
+    InitialGridPoints: [6]
+    TimeDependence: None
+    BoundaryConditions:
+      LowerBoundary:
+        DirichletAnalytic:
+          AnalyticPrescription:
+            *InitialData
+      UpperBoundary:
+        DirichletAnalytic:
+          AnalyticPrescription:
+            *InitialData
+
+SpatialDiscretization:
+  BoundaryCorrection:
+    Hllc:
+  DiscontinuousGalerkin:
+    Formulation: StrongInertial
+    Quadrature: GaussLobatto
+    Subcell:
+      TroubledCellIndicator:
+        PerssonTci:
+          Exponent: 4.0
+          NumHighestModes: 1
+        RdmpTci:
+          Delta0: 1.0e-7
+          Epsilon: 1.0e-3
+        FdToDgTci:
+          NumberOfStepsBetweenTciCalls: 4
+          MinTciCallsAfterRollback: 4
+          MinimumClearTcis: 2
+        AlwaysUseSubcells: false
+        UseHalo: false
+        OnlyDgBlocksAndGroups: None
+      SubcellToDgReconstructionMethod: DimByDim
+      FiniteDifferenceDerivativeOrder: 2
+  SubcellSolver:
+    Reconstructor:
+      AoWeno53Prim:
+        GammaHi: 0.85
+        GammaLo: 0.95
+        Epsilon: 1e-30
+        NonlinearWeightExponent: 2
+
+EvolutionSystem:
+  SourceTerm:
+    NoSource:
+
+EventsAndTriggers:
+  - Trigger:
+      TimeCompares:
+        Comparison: GreaterThanOrEqualTo
+        Value: 0.1
+    Events:
+      - Completion
+  - Trigger:
+      Slabs:
+        EvenlySpaced:
+          Interval: 30
+          Offset: 0
+    Events:
+      - ObserveFields:
+          SubfileName: VolumeData
+          VariablesToObserve: [RestMassDensity, Pressure]
+          InterpolateToMesh: None
+          CoordinatesFloatingPointType: Double
+          FloatingPointTypes: [Float]
+
+EventsAndDenseTriggers:
+
+Observers:
+  VolumeFileName: "NewtonianEulerLaxVolume"
+  ReductionFileName: "NewtonianEulerLaxReductions"
