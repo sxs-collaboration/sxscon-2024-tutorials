@@ -1,42 +1,99 @@
 # Tutorials at SXScon 2024
 
 This repo contains workshop material like Jupyter notebooks and input files used
-for the SXS workshop at ICERM.
+for the SXS workshop at ICERM. It should be cloned on Oscar, the cluster at
+Brown which we will be using. To access Oscar, see
+[the instructions below](#connecting-to-oscar).
+
+The documentation for Oscar can be found
+[here](https://docs.ccv.brown.edu/oscar). These docs are quite good, so if
+there's anything missing from this README about how to do something on Oscar,
+you can refer here. Or you can also ask any organizer/TA for help.
 
 ### Connecting to Oscar
 
-You should already have an account on the cluster. (What will their password be?)
+You should already have an account on the cluster. At the beginning of the
+workshop you should have received an email from Brown/ICERM with details about a
+Brown account. This should have your username and password. These will be the
+username and password you use for everything below.
 
-#### SSH Keys
+#### Duo 2FA
 
-First we'll want to generate an SSH key (if you don't already have one)
+Brown requires 2FA for all its accounts. To setup 2FA, go to your
+[brown account](https://myaccount.brown.edu/twostep/settings), log in with your
+credentials, and follow the instructions there.
+
+#### Wifi
+
+There are two networks you can use. The guest wifi requires no authentication.
+To use the Brown network, you'll have to log in with your Brown username and
+password. Access to the Brown network will be required if you want to use
+[ssh keys](#ssh-keys-optional) to access Oscar, or if you want to use
+[VSCode](#logging-in-to-oscar-with-vscode-optional) to access Oscar.
+
+#### Logging in to Oscar with a terminal
+
+To access oscar, simply do
 
 ```sh
-ssh-keygen -t ed25519 -C "your_email@example.com"
+ssh USER@ssh.ccv.brown.edu
 ```
 
-Then, when prompted, put in a passphrase for this key. Then we want to
-add the key to our agent
+You'll be prompted for you password, and then for 2FA.
 
-```sh
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
-```
+#### SSH Keys (Optional)
 
-#### Logging in to Oscar
+Using ssh keys is *not* required for the workshop. Though it can make accessing
+Oscar easier so you don't have to type your password in every time.
 
-First, let's copy our key to Oscar
+> :warning: You can only use ssh keys to access the `sshcampus.ccv.brown.edu`
+> domain. And you can only access the `sshcampus.ccv.brown.edu` domain from the
+> Brown network. Ssh keys *will not work* for the `ssh.ccv.brown.edu` domain or
+> on the guest [wifi](#wifi).
+
+If you don't already have an ssh key, the
+[GitHub docs](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+are very easy to follow.
+
+We need to copy our key to Oscar
 
 ```sh
 ssh-copy-id -i ~/.ssh/id_ed25519 USER@sshcampus.ccv.brown.edu
 ```
 
-You should be prompted for a password. (and maybe 2FA?) After this, you
+You should be prompted for a password and 2FA. After this, you
 should be able to access Oscar without entering a password
 
 ```sh
 ssh USER@sshcampus.ccv.brown.edu
 ```
+
+#### Logging in to Oscar with VSCode (Optional)
+
+You cannot log in to Oscar with VSCode through either of the above domains
+(`sshcampus.ccv.brown.edu` or `ssh.ccv.brown.edu`). You also cannot use VSCode
+to access Oscar on the guest [wifi](#wifi). You have to be on the Brown network.
+
+You will need to add the following to your `~/.ssh/config` file
+
+```conf
+Host oscar-vscode
+  HostName vscode1
+  User USERNAME
+  ProxyJump oscar-jump
+
+Host oscar-jump
+  HostName poodcit4.services.brown.edu
+  User USERNAME
+```
+
+replacing the username with your own. Then with the
+[remote ssh
+extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
+, find the `oscar-vscode` host, and connect with that. If you set up
+[ssh keys](#ssh-keys-optional), then you won't be prompted for a password. If you didn't
+set them up, you'll have to enter your password and 2FA.
+
 
 ### Getting SpECTRE set up for the first time
 
