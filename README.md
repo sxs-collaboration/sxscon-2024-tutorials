@@ -51,6 +51,7 @@ ssh USER@sshcampus.ccv.brown.edu
    ```sh
    echo 'export SPECTRE_HOME=$HOME/spectre' >> ~/.bashrc
    echo 'export SPECTRE_BUILD=$HOME/spectre/build' >> ~/.bashrc
+   echo 'export PATH=$SPECTRE_BUILD/bin:$PATH' >> ~/.bashrc
    echo 'source $SPECTRE_HOME/support/Environments/oscar.sh' >> ~/.bashrc
    source ~/.bashrc
    ```
@@ -85,6 +86,7 @@ ssh USER@sshcampus.ccv.brown.edu
    ```
 
    Things should compile quite quickly because we've set up a cache on Oscar.
+   You can check the cache hit rate with `ccache -s`.
 
 ### Getting set up again after disconnecting
 
