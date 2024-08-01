@@ -3,21 +3,53 @@
 This repo contains workshop material like Jupyter notebooks and input files used
 for the SXS workshop at ICERM.
 
+### Connecting to Oscar
+
+You should already have an account on the cluster. (What will their password be?)
+
+#### SSH Keys
+
+First we'll want to generate an SSH key (if you don't already have one)
+
+```sh
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+You can choose to name the key something specific, but the default should work
+well. Then, when prompted, put in a passphrase for this key. Then we want to
+add the key to our agent
+
+```sh
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+
+If you gave your key a different name, replace `id_ed25519` with that name.
+
+#### Logging in to Oscar
+
+First, let's copy our key to Oscar
+
+```sh
+ssh-copy-id -i ~/.ssh/id_ed25519 USER@sshcampus.ccv.brown.edu
+```
+
+You should be prompted for a password. (and maybe 2FA?) After this, you
+should be able to access Oscar without entering a password
+
+```sh
+ssh USER@sshcampus.ccv.brown.edu
+```
+
 ### Getting SpECTRE set up for the first time
 
-1. Connect to Oscar:
-
-   ```sh
-   ssh USER@ssh.ccv.brown.edu
-   ```
-
-2. Download SpECTRE:
+1. Download SpECTRE:
 
    ```sh
    git clone https://github.com/sxs-collaboration/spectre.git $HOME/spectre
    ```
 
-3. Configure your environment on Oscar:
+2. Configure your environment on Oscar:
 
    ```sh
    echo 'export SPECTRE_HOME=$HOME/spectre' >> ~/.bashrc
@@ -26,7 +58,7 @@ for the SXS workshop at ICERM.
    source ~/.bashrc
    ```
 
-4. Load the SpECTRE modules:
+3. Load the SpECTRE modules:
 
    ```sh
    spectre_load_modules
@@ -36,7 +68,7 @@ for the SXS workshop at ICERM.
    modules like `spectre-deps/oscar-2024-07` and `spec-exporter/spec-2024-07`
    loaded.
 
-5. Configure the SpECTRE build directory:
+4. Configure the SpECTRE build directory:
 
    ```sh
    mkdir -p $SPECTRE_BUILD
@@ -44,7 +76,7 @@ for the SXS workshop at ICERM.
    spectre_run_cmake
    ```
 
-6. Now you can compile the code. Compile the command-line interface (`cli`), the
+5. Now you can compile the code. Compile the command-line interface (`cli`), the
    binary black hole executables (`bbh`), and several additional executables
    that we'll use in the tutorials:
 
