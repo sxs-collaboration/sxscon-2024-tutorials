@@ -10,7 +10,7 @@ The documentation for Oscar can be found
 there's anything missing from this README about how to do something on Oscar,
 you can refer here. Or you can also ask any organizer/TA for help.
 
-### Connecting to Oscar
+### 1. Connecting to Oscar
 
 You should already have an account on the cluster. At the beginning of the
 workshop you should have received an email from Brown/ICERM with details about a
@@ -94,8 +94,27 @@ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.
 [ssh keys](#ssh-keys-optional), then you won't be prompted for a password. If you didn't
 set them up, you'll have to enter your password and 2FA.
 
+### 2. Clone this repo
 
-### Getting SpECTRE set up for the first time
+Once you have access to Oscar, clone this repo
+
+```sh
+git clone https://github.com/sxs-collaboration/sxscon-2024-tutorials.git $HOME/sxscon-2024-tutorials
+```
+
+### 3. Getting an interactive compute node
+
+Oscar offers a convenient command for getting an interactive compute node
+
+```sh
+interact -f cascade -n 2 -t 01:00:00
+```
+
+The `-n` means number of cores, `-t` time limit. You can optionally also
+specify the amount of memory with `-m 10G`. This will give you 10GB of
+memory.
+
+### 4. Getting SpECTRE set up for the first time
 
 1. Download SpECTRE:
 
@@ -112,6 +131,9 @@ set them up, you'll have to enter your password and 2FA.
    echo 'source $SPECTRE_HOME/support/Environments/oscar.sh' >> ~/.bashrc
    source ~/.bashrc
    ```
+
+   (You'll want to do the next steps on a
+   [compute node](#4-getting-an-interactive-compute-node)).
 
 3. Load the SpECTRE modules:
 
@@ -131,7 +153,9 @@ set them up, you'll have to enter your password and 2FA.
    spectre_run_cmake
    ```
 
-5. Now you can compile the code. Compile the command-line interface (`cli`), the
+5. Now you can compile the code (on a
+   [compute node](#4-getting-an-interactive-compute-node)). Compile the
+   command-line interface (`cli`), the
    binary black hole executables (`bbh`), and several additional executables
    that we'll use in the tutorials:
 
@@ -145,7 +169,7 @@ set them up, you'll have to enter your password and 2FA.
    Things should compile quite quickly because we've set up a cache on Oscar.
    You can check the cache hit rate with `ccache -s`.
 
-### Getting set up again after disconnecting
+#### Getting set up again after disconnecting
 
 Just run:
 
@@ -155,7 +179,7 @@ spectre_load_modules
 
 Then you can compile and run the code, open Jupyter notebooks, etc.
 
-### Troubleshooting
+#### Troubleshooting
 
 If you run into issues, please ask a TA. Unfortunately with shared file systems
 on clusters issues do arise. An easy thing to try when you run into issues is to
@@ -170,4 +194,4 @@ wipe the build directory and recompile:
 
 2.  Go to step 4. above to reconfigure the build directory.
 
-### Connecting Jupyter notebooks to Oscar
+### 5. Connecting Jupyter notebooks to Oscar
