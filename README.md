@@ -194,4 +194,55 @@ wipe the build directory and recompile:
 
 2.  Go to step 4. above to reconfigure the build directory.
 
-### 5. Connecting Jupyter notebooks to Oscar
+### 5. Connecting Jupyter Lab to Oscar
+
+You have to run Jupyter notebooks/lab on a
+[compute node](#3-getting-an-interactive-compute-node) since they can sometimes
+have a lot of computation.
+
+We offer a convenience bash script to help setup the Jupyter server. On the
+compute node
+
+```sh
+cd $HOME/sxscon-2024-tutorials
+./jupyter_setup.sh $SPECTRE_BUILD
+```
+
+After this, you'll need to open a new ssh connection in a separate terminal.
+This script prints instructions on how to do this, and then how to open the
+server in a local browser. You can also open the URL in VSCode if it is
+connected to Oscar.
+
+### 6. Connection Paraview to Oscar
+
+Unfortunately paraview is very strict when trying to do remote rendering
+about the local and remote versions of the code being identical. This means
+you'll need to download a specific version of paraview for this workshop,
+even if you already have a different version installed.
+
+You specifically need version 5.11.1 (https://www.paraview.org/download/).
+
+If you are on linux, you can download it with
+
+```sh
+wget https://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v5.11&type=binary&os=Linux&downloadFile=ParaView-5.11.1-MPI-Linux-Python3.9-x86_64.tar.gz
+tar -xzf Paraview-5.11.1*
+```
+
+On macOS, choose the correct arch for your laptop (arm vs x86). The new
+M(1/2/3) macs need arm. Older macs use x86.
+
+Similar to running a [jupyter server](#5-connecting-jupyter-lab-to-oscar),
+paraview needs to be run on a
+[compute node](#3-getting-an-interactive-compute-node) as well.
+
+We also offer a convenience bash script to help set this up
+
+```sh
+./paraview_setup.sh
+```
+
+If the port you were assigned is busy, you can rerun the script or pass
+a specific port to the script. The output of the script will also tell
+you what to run on your local machine to connect your local paraview to
+the server (it'll also be a new ssh connection).
