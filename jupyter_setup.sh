@@ -36,7 +36,7 @@ echo "############## Setup Output ##############"
 source $SPECTRE_HOME/support/Environments/oscar.sh
 spectre_load_modules > /dev/null 2>&1
 
-ipnport=$(shuf -i8000-9999 -n1)
+ipnport=$(comm -23 <(seq 8000 9000 | sort) <(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | shuf | head -n 1)
 echo ipnport "$ipnport"
 ipnip=$(hostname -i)
 echo ipnip "  $ipnip"
@@ -47,9 +47,13 @@ echo "terminal using"
 echo ""
 echo "ssh -L $ipnport:$ipnip:$ipnport $USER@sshcampus.ccv.brown.edu"
 echo ""
-echo "Note: If you are not on the Brown network, replace 'sshcampus' with 'ssh'"
+echo "*Note* If you are not on the Brown network, replace 'sshcampus' with 'ssh'"
+echo "*Note* If the Jupyter output below has a message similar to"
+echo "       'The port XXXX is already in use, trying another port'"
+echo "       use the new port from the URL in your ssh connection."
 echo ""
-echo "Once connected, copy one of the URLs from below into a browser"
+echo "Once connected, copy one of the URLs from below into a browser (likely"
+echo "the last URL)"
 echo ""
 
 echo "############# Jupyter Output ############"

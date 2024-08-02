@@ -20,7 +20,10 @@ module purge
 module load hpcx-mpi/4.1.5rc2s-yflad4v
 module load paraview-mpi/5.11.1-fbewjmo
 
-pvport=$(shuf -i11111-33333 -n1)
+pvport=$(comm -23 <(seq 11111 33333 | sort) <(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | shuf | head -n 1)
+if [[ ! -z "$1"]]; then
+  pvport=$1
+fi
 node="$(echo $first | cut -d'.' -f1)"
 echo port "$pvport"
 echo node "$node"
@@ -31,7 +34,10 @@ echo "terminal using"
 echo ""
 echo "ssh -L $pvport:$node:$pvport $USER@sshcampus.ccv.brown.edu"
 echo ""
-echo "Note: If you are not on the Brown network, replace 'sshcampus' with 'ssh'"
+echo "*Note* If you are not on the Brown network, replace 'sshcampus' with 'ssh'"
+echo "*Note* If this fails, then likely the port chosen isn't available. In that"
+echo "       case, just run this script again, or supply a port to this script in"
+echo "       the range 11111-33333."
 echo ""
 echo "Once connected, on your local machine run"
 echo ""
