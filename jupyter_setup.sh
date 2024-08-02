@@ -3,7 +3,7 @@ if [[ $first == "login"* ]]; then
   echo "ERROR: You should not run the jupyter server on the login node."
   echo "Use a compute node instead. Request an interactive node with:"
   echo ""
-  echo "interact -n4 -t 1:30:00"
+  echo "interact -f cascade -n4 -t 1:00:00"
   exit 1
 fi
 
