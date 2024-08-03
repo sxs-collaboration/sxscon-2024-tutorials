@@ -45,7 +45,7 @@ echo "/path/to/paraview5.11.1/bin/paraview --url cs://localhost:$pvport"
 echo ""
 echo "If you are on MacOS run"
 echo ""
-echo "open ParaView-5.11.2.app --args --url cs://localhost:$pvport"
+echo "open /Applications/ParaView-5.11.2.app --args --url cs://localhost:$pvport"
 
 echo "############# Paraview Output ############"
 
