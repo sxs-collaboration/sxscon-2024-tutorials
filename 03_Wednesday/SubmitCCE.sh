@@ -13,7 +13,7 @@
 # Distributed under the MIT License.
 # See LICENSE.txt for details.
 
-export SPECTRE_INPUT_FILE=$PWD/CceExecutables/Inspiral.yaml
-export SPECTRE_EXECUTABLE=$PWD/CceExecutables/CharacteristicExtract
+export SPECTRE_INPUT_FILE=$PWD/runs/CceExecutables/CharacteristicExtract.yaml
+export SPECTRE_EXECUTABLE=$PWD/runs/CceExecutables/CharacteristicExtract
 
 # Tutorial TODO: Add the run comman for invoking the exectuable
