@@ -245,4 +245,5 @@ We also offer a convenience bash script to help set this up
 If the port you were assigned is busy, you can rerun the script or pass
 a specific port to the script. The output of the script will also tell
 you what to run on your local machine to connect your local paraview to
-the server (it'll also be a new ssh connection).
+the server (it'll also be a new ssh connection). There are different commands
+to run depending whether you are on linux or macOS.

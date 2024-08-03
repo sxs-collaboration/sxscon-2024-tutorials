@@ -17,8 +17,8 @@ fi
 echo "############## Setup Output ##############"
 
 module purge
-module load hpcx-mpi/4.1.5rc2s-yflad4v
-module load paraview-mpi/5.11.1-fbewjmo
+module use /users/nvu8/modules
+module load paraview/5.11.2-osmesa
 
 pvport=$(comm -23 <(seq 11111 33333 | sort) <(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | shuf | head -n 1)
 if [[ ! -z "$1"]]; then
@@ -39,10 +39,13 @@ echo "*Note* If this fails, then likely the port chosen isn't available. In that
 echo "       case, just run this script again, or supply a port to this script in"
 echo "       the range 11111-33333."
 echo ""
-echo "Once connected, on your local machine run"
+echo "Once connected, on your local machine if you are on linux run"
 echo ""
 echo "/path/to/paraview5.11.1/bin/paraview --url cs://localhost:$pvport"
 echo ""
+echo "If you are on MacOS run"
+echo ""
+echo "open ParaView-5.11.2.app --args --url cs://localhost:$pvport"
 
 echo "############# Paraview Output ############"
 
