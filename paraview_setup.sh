@@ -17,6 +17,8 @@ fi
 echo "############## Setup Output ##############"
 
 module purge
+source $SPECTRE_HOME/support/Environments/oscar.sh
+spectre_load_modules
 module use /users/nvu8/modules
 module load paraview/5.11.2-osmesa
 
@@ -41,7 +43,7 @@ echo "       the range 11111-33333."
 echo ""
 echo "Once connected, on your local machine if you are on linux run"
 echo ""
-echo "/path/to/paraview5.11.1/bin/paraview --url cs://localhost:$pvport"
+echo "/path/to/paraview5.11.2/bin/paraview --url cs://localhost:$pvport"
 echo ""
 echo "If you are on MacOS run"
 echo ""
