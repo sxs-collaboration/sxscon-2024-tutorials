@@ -163,7 +163,7 @@ memory.
    cd $SPECTRE_BUILD
    make -j2 cli
    make -j2 bbh
-   make -j2 EvolveBurgers EvolveNewtonionEuler1D
+   make -j2 EvolveBurgers EvolveNewtonianEuler1D
    ```
 
    Things should compile quite quickly because we've set up a cache on Oscar.
