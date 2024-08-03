@@ -47,7 +47,11 @@ echo "/path/to/paraview5.11.2/bin/paraview --url cs://localhost:$pvport"
 echo ""
 echo "If you are on MacOS run"
 echo ""
-echo "open /Applications/ParaView-5.11.2.app --args --url cs://localhost:$pvport"
+echo "open ParaView-5.11.2.app --args --url cs://localhost:$pvport"
+echo ""
+echo "*Note* Once you run the above command, it may take a minute or two for"
+echo "       ParaView to connect."
+echo ""
 
 echo "############# Paraview Output ############"
 
