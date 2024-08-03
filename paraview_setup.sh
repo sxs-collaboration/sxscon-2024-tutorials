@@ -21,7 +21,7 @@ module use /users/nvu8/modules
 module load paraview/5.11.2-osmesa
 
 pvport=$(comm -23 <(seq 11111 33333 | sort) <(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | shuf | head -n 1)
-if [[ ! -z "$1"]]; then
+if [[ ! -z "$1" ]]; then
   pvport=$1
 fi
 node="$(echo $first | cut -d'.' -f1)"
