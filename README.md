@@ -220,13 +220,13 @@ about the local and remote versions of the code being identical. This means
 you'll need to download a specific version of paraview for this workshop,
 even if you already have a different version installed.
 
-You specifically need version 5.11.1 (https://www.paraview.org/download/).
+You specifically need version 5.11.2 (https://www.paraview.org/download/).
 
 If you are on linux, you can download it with
 
 ```sh
-wget https://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v5.11&type=binary&os=Linux&downloadFile=ParaView-5.11.1-MPI-Linux-Python3.9-x86_64.tar.gz
-tar -xzf Paraview-5.11.1*
+wget https://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v5.11&type=binary&os=Linux&downloadFile=ParaView-5.11.2-MPI-Linux-Python3.9-x86_64.tar.gz
+tar -xzf Paraview-5.11.2*
 ```
 
 On macOS, choose the correct arch for your laptop (arm vs x86). The new
