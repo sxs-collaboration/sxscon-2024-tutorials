@@ -213,7 +213,7 @@ This script prints instructions on how to do this, and then how to open the
 server in a local browser. You can also open the URL in VSCode if it is
 connected to Oscar.
 
-### 6. Connection Paraview to Oscar
+### 6. Connecting Paraview to Oscar
 
 Unfortunately paraview is very strict when trying to do remote rendering
 about the local and remote versions of the code being identical. This means
