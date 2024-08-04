@@ -114,6 +114,10 @@ The `-n` means number of cores, `-t` time limit. You can optionally also
 specify the amount of memory with `-m 10G`. This will give you 10GB of
 memory.
 
+For building SpECTRE, you probably want to use 8 cores and 16G of memory.
+For the Jupyter and ParaView servers, you can get away with 2 cores and
+the default amount of memory.
+
 ### 4. Getting SpECTRE set up for the first time
 
 1. Download SpECTRE:
@@ -154,16 +158,16 @@ memory.
    ```
 
 5. Now you can compile the code (on a
-   [compute node](#4-getting-an-interactive-compute-node)). Compile the
-   command-line interface (`cli`), the
+   [compute node](#4-getting-an-interactive-compute-node), 8 cores, 16G memory).
+   Compile the command-line interface (`cli`), the
    binary black hole executables (`bbh`), and several additional executables
    that we'll use in the tutorials:
 
    ```sh
    cd $SPECTRE_BUILD
-   make -j2 cli
-   make -j2 bbh
-   make -j2 EvolveBurgers EvolveNewtonianEuler1D
+   make -j8 cli
+   make -j8 bbh
+   make -j8 EvolveBurgers EvolveNewtonianEuler1D
    ```
 
    Things should compile quite quickly because we've set up a cache on Oscar.
