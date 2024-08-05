@@ -208,6 +208,8 @@ wipe the build directory and recompile:
 
 ### 5. Connecting Jupyter Lab to Oscar
 
+See [OpenOnDeman](#7-OpenOnDemand) for an alternative method.
+
 You have to run Jupyter notebooks/lab on a
 [compute node](#3-getting-an-interactive-compute-node) since they can sometimes
 have a lot of computation.
@@ -226,6 +228,8 @@ server in a local browser. You can also open the URL in VSCode if it is
 connected to Oscar.
 
 ### 6. Connecting Paraview to Oscar
+
+See [OpenOnDeman](#7-OpenOnDemand) for an alternative method.
 
 Unfortunately paraview is very strict when trying to do remote rendering
 about the local and remote versions of the code being identical. This means
@@ -259,3 +263,11 @@ a specific port to the script. The output of the script will also tell
 you what to run on your local machine to connect your local paraview to
 the server (it'll also be a new ssh connection). There are different commands
 to run depending whether you are on linux or macOS.
+
+### 7. OpenOnDemand
+
+You can also access oscar using
+[OpenOnDemand](https://docs.ccv.brown.edu/oscar/connecting-to-oscar/open-ondemand)
+. This may be useful if you're having issues accessing the cluster. It runs on
+a compute node and opens a GUI locally so you don't have to deal with port
+forwarding. Just be sure to grab enough resources if you need to build SpECTRE.
