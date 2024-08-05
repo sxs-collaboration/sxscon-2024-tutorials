@@ -167,7 +167,7 @@ the default amount of memory.
    cd $SPECTRE_BUILD
    make -j8 cli
    make -j8 bbh
-   make -j8 EvolveBurgers EvolveNewtonianEuler1D
+   make -j8 EvolveBurgers EvolveNewtonianEuler1D EvolveScalarWave1D
    ```
 
    Things should compile quite quickly because we've set up a cache on Oscar.
