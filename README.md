@@ -106,8 +106,16 @@ git clone https://github.com/sxs-collaboration/sxscon-2024-tutorials.git $HOME/s
 
 Oscar offers a convenient command for getting an interactive compute node
 
+For Jupyter and paraview, use
+
 ```sh
 interact -f cascade -n 2 -t 01:00:00
+```
+
+For building SpECTRE use
+
+```sh
+interact -f cascade -n 8 -m 10G -t 01:00:00
 ```
 
 The `-n` means number of cores, `-t` time limit. You can optionally also
