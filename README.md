@@ -115,7 +115,7 @@ interact -f cascade -n 2 -t 01:00:00
 For building SpECTRE use
 
 ```sh
-interact -f cascade -n 8 -m 10G -t 01:00:00
+interact -f cascade -n 8 -m 16G -t 01:00:00
 ```
 
 The `-n` means number of cores, `-t` time limit. You can optionally also
