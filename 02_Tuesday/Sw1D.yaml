@@ -1,0 +1,132 @@
+# Distributed under the MIT License.
+# See LICENSE.txt for details.
+
+Executable: EvolveScalarWave1D
+Testing:
+  Check: parse
+  Priority: High
+ExpectedOutput:
+  - ScalarWavePlaneWave1DEventsAndTriggersExampleVolume.h5
+
+---
+
+Parallelization:
+  ElementDistribution: NumGridPoints
+
+ResourceInfo:
+  AvoidGlobalProc0: false
+  Singletons: Auto
+
+InitialData: &InitialData
+  PlaneWave:
+    WaveVector: [1.0]
+    Center: [0.0]
+    Profile:
+      Gaussian:
+        Amplitude: 1.0
+        Width: 1.0
+        Center: -6.0
+
+Amr:
+  Criteria:
+    - TruncationError:
+        VariablesToMonitor: [Psi]
+        AbsoluteTarget: 1.e-6
+        RelativeTarget: 1.0
+  Policies:
+    Isotropy: Anisotropic
+    Limits:
+      RefinementLevel: Auto
+      NumGridPoints: Auto
+    EnforceTwoToOneBalanceInNormalDirection: false
+  Verbosity:  Silent
+
+PhaseChangeAndTriggers:
+  - Trigger:
+      Slabs:
+        EvenlySpaced:
+          Interval: 50
+          Offset: 0
+    PhaseChanges:
+      - VisitAndReturn(EvaluateAmrCriteria)
+      - VisitAndReturn(AdjustDomain)
+      - VisitAndReturn(CheckDomain)
+
+Evolution:
+  InitialTime: &InitialTime
+    0.0
+  InitialTimeStep: 0.001
+  TimeStepper:
+    AdamsBashforth:
+      Order: 3
+
+DomainCreator:
+  Interval:
+    LowerBound: [1.0]
+    UpperBound: [3.0]
+    Distribution: Linear
+    Singularity: None
+    InitialRefinement: [2]
+    InitialGridPoints: [4]
+    TimeDependence:
+      UniformTranslation:
+        InitialTime: *InitialTime
+        Velocity: [0.01]
+    BoundaryConditions:
+      LowerBoundary:
+        DirichletAnalytic:
+          AnalyticPrescription: *InitialData
+      UpperBoundary:
+        DirichletAnalytic:
+          AnalyticPrescription: *InitialData
+
+SpatialDiscretization:
+  BoundaryCorrection:
+    UpwindPenalty:
+  DiscontinuousGalerkin:
+    Formulation: StrongInertial
+    Quadrature: GaussLobatto
+
+EventsAndDenseTriggers:
+  - Trigger:
+      Times:
+        EvenlySpaced:
+          Interval: 0.1
+          Offset: 0.0
+    Events:
+      - ObserveNorms:
+          SubfileName: Errors
+          TensorsToObserve:
+            - Name: Error(Psi)
+              NormType: L2Norm
+              Components: Sum
+            - Name: Error(Phi)
+              NormType: L2Norm
+              Components: Sum
+            - Name: Error(Pi)
+              NormType: L2Norm
+              Components: Sum
+
+EventsAndTriggers:
+  - Trigger:
+      Slabs:
+        EvenlySpaced:
+          Interval: 500
+          Offset: 0
+    Events:
+      - ObserveFields:
+          SubfileName: Fields
+          VariablesToObserve: [Psi, Error(Psi)]
+          InterpolateToMesh: None
+          CoordinatesFloatingPointType: Double
+          FloatingPointTypes: [Double]
+  - Trigger:
+      Slabs:
+        Specified:
+          Values: [15000]
+    Events:
+      - Completion
+
+Observers:
+  VolumeFileName: "Volume"
+  ReductionFileName: "Reductions"
