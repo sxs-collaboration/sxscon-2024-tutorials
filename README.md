@@ -229,7 +229,9 @@ connected to Oscar.
 
 ### 6. Connecting Paraview to Oscar
 
-See [OpenOnDeman](#7-OpenOnDemand) for an alternative method.
+See [OpenOnDeman](#7-OpenOnDemand) for an alternative method. (Note you'll)
+have to install your own paraview 5.11.2 on the interactive node since the
+system installed one doesn't have GUI capabilities
 
 Unfortunately paraview is very strict when trying to do remote rendering
 about the local and remote versions of the code being identical. This means
@@ -271,3 +273,26 @@ You can also access oscar using
 . This may be useful if you're having issues accessing the cluster. It runs on
 a compute node and opens a GUI locally so you don't have to deal with port
 forwarding. Just be sure to grab enough resources if you need to build SpECTRE.
+
+Log in to [here](https://ood.ccv.brown.edu/pun/sys/dashboard/) with your Brown
+credentials. Then click the 'Desktop' button. There will be a dropdown for
+how many resources to use. Choose whichever you like. Wait a few seconds, then
+click the 'Launch' button. If your internet connection is good, you can decrease
+the compression and increase the image quality. Then you should be dropped into
+a nice GUI! You can open a terminal and do everything from there without
+worrying about port forwarding.
+
+Note that for both Jupyter and Paraview, you don't need to run the `_setup.sh`
+scripts anymore. You can just run
+
+```sh
+$SPECTRE_BUILD/bin/python-spectre -m jupyterlab
+```
+
+or wherever you installed paraview (`wget
+https://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v5.11&type=binary&os=Linux&downloadFile=ParaView-5.11.2-MPI-Linux-Python3.9-x86_64.tar.gz`
+and untar it)
+
+```sh
+./bin/paraview
+```
