@@ -1,16 +1,17 @@
 first=$(hostname)      # get the 1st name
-if [[ $first == "login"* ]]; then
-  echo "ERROR: You should not run the paraview server on the login node."
-  echo "Use a compute node instead. Request an interactive node with:"
-  echo ""
-  echo "interact -n4 -m45G -t 1:30:00"
-  exit 1
-fi
+# if [[ $first == "login"* ]]; then
+#   echo "ERROR: You should not run the paraview server on the login node."
+#   echo "Use a compute node instead. Request an interactive node with:"
+#   echo ""
+#   echo "interact -n4 -m45G -t 1:30:00"
+#   exit 1
+# fi
 
 unset XDG_RUNTIME_DIR
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
   echo "Starts a paraview server in the background for you to connect to."
+  echo "Can optionally specify a port number to use that specific port"
   exit 0
 fi
 

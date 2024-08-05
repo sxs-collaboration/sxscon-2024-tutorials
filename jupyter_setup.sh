@@ -1,11 +1,11 @@
 first=$(hostname)      # get the 1st name
-if [[ $first == "login"* ]]; then
-  echo "ERROR: You should not run the jupyter server on the login node."
-  echo "Use a compute node instead. Request an interactive node with:"
-  echo ""
-  echo "interact -f cascade -n4 -t 1:00:00"
-  exit 1
-fi
+# if [[ $first == "login"* ]]; then
+#   echo "ERROR: You should not run the jupyter server on the login node."
+#   echo "Use a compute node instead. Request an interactive node with:"
+#   echo ""
+#   echo "interact -f cascade -n4 -t 1:00:00"
+#   exit 1
+# fi
 
 unset XDG_RUNTIME_DIR
 
@@ -18,6 +18,9 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
   echo "Starts a Juptyer server in the background for you to connect to."
   echo "You must supply a SpECTRE build directory to this script so the"
   echo "Jupyter server is launched with SpECTRE python"
+  echo ""
+  echo "Can optionally specify a port number to use that specific port"
+  echo "(after the spectre build dir on the command line"
   exit 0
 fi
 
@@ -37,6 +40,9 @@ source $SPECTRE_HOME/support/Environments/oscar.sh
 spectre_load_modules > /dev/null 2>&1
 
 ipnport=$(comm -23 <(seq 8000 9000 | sort) <(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | shuf | head -n 1)
+if [[ ! -z "$2" ]]; then
+  ipnport=$2
+fi
 echo ipnport "$ipnport"
 ipnip=$(hostname -i)
 echo ipnip "  $ipnip"
